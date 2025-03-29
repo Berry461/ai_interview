@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "./ui/button"
 import DisplayTechIcons from "./DisplayTechIcons";
 
-const InterviewCard = ({ interviewId, userId, role, type, techstack,
+const InterviewCard = ({ id, userId, role, type, techstack,
     createdAt }: InterviewCardProps) => {
         const feedback = null as Feedback | null;
         const normalizedType = /mix/gi.test(type) ? "Mixed" : type;
@@ -54,8 +54,8 @@ height={22} alt="star" />
 
                 <Button className="btn-primary">
                     <Link href={feedback
-                        ? `/interview/${interviewId}/feedback`
-                        : `/interview/${interviewId}`
+                        ? `/interview/${id}/feedback`
+                        : `/interview/${id}`
                     }>
                         {feedback ? 'Check Feedback' : 'View Interview'}
                     </Link>
