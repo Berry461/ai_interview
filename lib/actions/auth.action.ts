@@ -1,6 +1,10 @@
 "use server"
 
-import {db, auth} from '@/firebase/admin';
+//import { getAuth, signOut as firebaseSignOut } from 'firebase/auth';
+import { redirect } from 'next/navigation';
+//import {db, auth} from '@/firebase/admin';
+import {auth} from '@/firebase/admin';
+import {db} from '@/firebase/admin';
 import {cookies} from 'next/headers';
 
 const ONE_WEEK = 60 * 60 * 24 * 7;
@@ -121,33 +125,22 @@ export async function isAuthenticated() {
     return !!user;
 }
 
-export async function getInterviewsByUserId(userId: string): Promise<Interview[] | null> {
-    const interviews = await db
-        .collection('interviews')
-        .where('userId', '==', userId)
-        .orderBy('createdAt', 'desc')
-        .get();
-
-    return interviews.docs.map((doc) => ({
-         id: doc.id,
-         ...doc.data()
-    })) as Interview[];
-
-}
-
-export async function getLatestInterviews(params: GetLatestInterviewsParams): Promise<Interview[] | null> {
-    const { userId, limit = 20 } = params
-    const interviews = await db
-        .collection('interviews')
-        .orderBy('createdAt', 'desc')
-        .where('finalized', '==', true)
-        .where('userId', '!=', userId)
-        .limit(limit)
-        .get();
-        
-    return interviews.docs.map((doc) => ({
-         id: doc.id,
-         ...doc.data()
-    })) as Interview[];
-
-}
+export async function signOutAction() {
+    const cookieStore = cookies();
+    
+    try {
+      // 1. Clear the session cookie
+      cookieStore.delete('session');
+      
+      // 2. Clear any other auth cookies
+      cookieStore.delete('token');
+      cookieStore.delete('user');
+      
+      // 3. IMPORTANT: Client-side will need to handle the actual Firebase auth state
+      redirect('/sign-in');
+      
+    } catch (error) {
+      console.error('Sign out error:', error);
+      throw error;
+    }
+  }
