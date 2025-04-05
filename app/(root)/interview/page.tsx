@@ -10,10 +10,6 @@ const Page = async () => {
 
         <Agent userName={user?.name} userId={user?.id} type="generate"/>
 
-        console.log("Environment Variables:", process.env);
-        console.log("Assistant Value:", assistant);
-        console.log("Squad Value:", squad);
-
     </>
   )
 }
