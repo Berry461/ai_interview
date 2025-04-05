@@ -93,10 +93,6 @@ SavedMessage[]) => {
   const handleCall = async () => {
     setCallStatus(CallStatus.CONNECTING);
 
-    console.log("Environment Variables:", process.env);
-    console.log("Assistant Value:", assistant);
-    console.log("Squad Value:", squad);
-
     if(type === 'generate') {
         await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
             variableValues: {
@@ -119,7 +115,9 @@ SavedMessage[]) => {
             }
         })
     }
-
+    console.log("Environment Variables:", process.env);
+    console.log("Assistant Value:", assistant);
+    console.log("Squad Value:", squad);
     
   }
 
