@@ -129,18 +129,16 @@ export async function signOutAction() {
     const cookieStore = cookies();
     
     try {
-      // 1. Clear the session cookie
+      // Clear all auth-related cookies
       cookieStore.delete('session');
-      
-      // 2. Clear any other auth cookies
       cookieStore.delete('token');
       cookieStore.delete('user');
       
-      // 3. IMPORTANT: Client-side will need to handle the actual Firebase auth state
-      redirect('/sign-in');
-      
+      // Important: This just clears server session
+      // Client-side will handle Firebase auth state
+      return { success: true };
     } catch (error) {
-      console.error('Sign out error:', error);
-      throw error;
+      console.error('Server sign out error:', error);
+      return { success: false, error: error instanceof Error ? error.message : 'Sign out failed' };
     }
-}
+  }
