@@ -9,6 +9,11 @@ const Page = async () => {
         <h3>Interview Generation</h3>
 
         <Agent userName={user?.name} userId={user?.id} type="generate"/>
+
+        console.log("Environment Variables:", process.env);
+        console.log("Assistant Value:", assistant);
+        console.log("Squad Value:", squad);
+
     </>
   )
 }
